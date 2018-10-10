@@ -8,3 +8,6 @@ spring:
       retry:
         max-attempts: 10000
         max-interval: 1000
+logging:
+  level:
+    org.hibernate.SQL: debug

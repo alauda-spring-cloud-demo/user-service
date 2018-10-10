@@ -14,4 +14,9 @@ public interface UserRepository extends JpaRepository<User,Long> {
             ".project_id = ?1",
             nativeQuery = true)
     List<User> getUsersByProjectId(Long projectId);
+
+    @Query(value = "SELECT u.* FROM users u LEFT JOIN authorities a ON u.username = a.username " +
+            "WHERE a.authority = ?1",
+            nativeQuery = true)
+    List<User> getUsersByRole(String role);
 }
