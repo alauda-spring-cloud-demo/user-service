@@ -1,4 +1,25 @@
 spring:
+  application:
+    name: user-service
   cloud:
     config:
-      uri: http://config-server:8080
+      discovery:
+        enabled: true
+        service-id: config-server
+      name: ${spring.application.name}
+      fail-fast: true
+      retry:  #启用连接失败重试，需要依赖spring-retry和spring-boot-starter-aop
+        initial-interval: 1000  #最初重试间隔为1000毫秒
+        multiplier: 1.2         #每次重试失败后，重试间隔所增加的倍数
+        max-attempts: 30        #最多重试 30 次
+        max-interval: 5000      #最长重试间隔为 5000 毫秒
+eureka:
+  host: eureka-server-demo
+  port: 8761
+  username: discovery
+  password: 3GfhPZQifTpVcu
+  client:
+    service-url:
+      defaultZone: http://${eureka.username}:${eureka.password}@${eureka.host}:${eureka.port}/eureka
+  instance.:
+    prefer-ip-address: true
