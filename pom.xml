@@ -60,7 +60,7 @@
         </plugins>
     </build>
 
-    <repositories>
+    <!-- <repositories>
         <repository>
             <id>epai</id>
             <url>http://dev.epai.io/nexus/content/groups/public</url>
@@ -71,7 +71,7 @@
             <id>epai</id>
             <url>http://dev.epai.io/nexus/content/groups/public</url>
         </pluginRepository>
-    </pluginRepositories>
+    </pluginRepositories> -->
 
 
 </project>
