@@ -1,7 +1,7 @@
 package demo.ms.user.controller;
 
-import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import demo.ms.common.entity.*;
 import demo.ms.common.stream.LoggerEventSink;
 import demo.ms.common.vo.JwtUserInfo;
@@ -26,7 +26,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.sql.Date;
-import java.util.HashSet;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -49,6 +48,7 @@ public class UserController {
     @Autowired
     UserProjectRefRepository userProjectRefRepository;
 
+    @HystrixCommand(commandKey = "CreateUser")
     @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     @PostMapping("/users")
     public User create(@RequestBody User userInfo) throws Exception {
@@ -71,6 +71,7 @@ public class UserController {
         return user;
     }
 
+    @HystrixCommand(commandKey = "UserRegistry")
     @PostMapping("/registry")
     public User registry(@RequestBody User userInfo) throws Exception {
 
@@ -95,6 +96,7 @@ public class UserController {
     }
 
 //    @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_PM','ROLE_PMO')")
+    @HystrixCommand(commandKey = "ListUser")
     @GetMapping("/users/list")
     public Page<User> listAllUsers(Integer page,Integer size){
         page = page == null ? 0:page;
@@ -103,11 +105,13 @@ public class UserController {
         return userPage;
     }
 
+    @HystrixCommand(commandKey = "GetUserInfo")
     @GetMapping("/users/{id}")
     public User getUserInfo(@PathVariable String id){
         return userRepository.findOne(Long.valueOf(id));
     }
 
+    @HystrixCommand(commandKey = "ListUsersByProject")
     @GetMapping("/users")
     public List<User> listUsersByProjectId(String projectId){
         if(org.apache.commons.lang.StringUtils.isNotEmpty(projectId)){
@@ -117,6 +121,7 @@ public class UserController {
         return userRepository.findAll();
     }
 
+    @HystrixCommand(commandKey = "ListProjectsByUser")
     @GetMapping("/user_project_ref")
     public Long[] listProjectIdsByUserId(String userId){
         UserProjectRef userProjectRef = new UserProjectRef();
@@ -131,11 +136,13 @@ public class UserController {
         return ids;
     }
 
+    @HystrixCommand(commandKey = "ListPM")
     @GetMapping("/users/pm")
     public List<User> getPMList(){
         return userRepository.getUsersByRole("ROLE_PM");
     }
 
+    @HystrixCommand(commandKey = "CreateUserProjectRef")
     @PreAuthorize("hasAnyRole('ROLE_PMO','ROLE_ADMIN','ROLE_PM')")
     @PostMapping("/user_project_ref")
     public UserProjectRef createUserProjectRef(@RequestBody UserProjectRef userProjectRef) throws Exception {
@@ -183,6 +190,7 @@ public class UserController {
         return userProjectRefRepository.save(userProjectRef);
     }
 
+    @HystrixCommand(commandKey = "DeleteUserProjectRef")
     @PreAuthorize("hasAnyRole('ROLE_PMO','ROLE_ADMIN','ROLE_PM')")
     @DeleteMapping("/user_project_ref")
     public void deleteUserProjectRef(String projectId,String userId){
@@ -229,6 +237,7 @@ public class UserController {
         }
     }
 
+    @HystrixCommand(commandKey = "UpdateUserInfo")
     @Transactional
     @PutMapping("/users")
     public ResponseEntity update(@RequestBody User user) throws Exception {

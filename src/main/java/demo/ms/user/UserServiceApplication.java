@@ -4,10 +4,14 @@ import demo.ms.common.config.ResourceServerConfig;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
+import org.springframework.cloud.client.circuitbreaker.EnableCircuitBreaker;
 import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
+import org.springframework.cloud.netflix.hystrix.EnableHystrix;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 
+@EnableHystrix
+@EnableCircuitBreaker
 @EntityScan({"demo.ms.user.entity"})
 @EnableEurekaClient
 @Import(ResourceServerConfig.class)
