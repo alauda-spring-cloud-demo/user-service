@@ -1,4 +1,4 @@
-FROM dwgao/java:8-pinpoint
+FROM dwgao/java:8-pinpoint18
 
 COPY target/*.jar /app/app.jar
 

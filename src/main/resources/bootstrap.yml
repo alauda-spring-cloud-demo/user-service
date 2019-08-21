@@ -21,7 +21,7 @@ eureka:
   client:
     registry-fetch-interval-seconds: 5
     service-url:
-      defaultZone: http://${eureka.username}:${eureka.password}@eureka1:${eureka.port}/eureka,http://${eureka.username}:${eureka.password}@eureka2:${eureka.port}/eureka
+      defaultZone: http://${eureka.username}:${eureka.password}@${eureka.host}:${eureka.port}/eureka
   instance:
     prefer-ip-address: true
     lease-renewal-interval-in-seconds: 5
@@ -29,15 +29,3 @@ eureka:
 logging:
   level:
     org.springframework.security: debug
----
-spring:
-  profiles: default
-  cloud:
-    config:
-      discovery:
-        enabled: false
-      uri: http://config.demo.io
-eureka:
-  client:
-    service-url:
-      defaultZone: http://${eureka.username}:${eureka.password}@eureka1:8761/eureka,http://${eureka.username}:${eureka.password}@eureka2:8762/eureka

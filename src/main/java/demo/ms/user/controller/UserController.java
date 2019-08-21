@@ -142,7 +142,6 @@ public class UserController {
         return userRepository.getUsersByRole("ROLE_PM");
     }
 
-    @HystrixCommand(commandKey = "CreateUserProjectRef")
     @PreAuthorize("hasAnyRole('ROLE_PMO','ROLE_ADMIN','ROLE_PM')")
     @PostMapping("/user_project_ref")
     public UserProjectRef createUserProjectRef(@RequestBody UserProjectRef userProjectRef) throws Exception {
@@ -190,7 +189,6 @@ public class UserController {
         return userProjectRefRepository.save(userProjectRef);
     }
 
-    @HystrixCommand(commandKey = "DeleteUserProjectRef")
     @PreAuthorize("hasAnyRole('ROLE_PMO','ROLE_ADMIN','ROLE_PM')")
     @DeleteMapping("/user_project_ref")
     public void deleteUserProjectRef(String projectId,String userId){
@@ -237,7 +235,6 @@ public class UserController {
         }
     }
 
-    @HystrixCommand(commandKey = "UpdateUserInfo")
     @Transactional
     @PutMapping("/users")
     public ResponseEntity update(@RequestBody User user) throws Exception {
