@@ -1,4 +1,4 @@
-FROM dwgao/java:8-pinpoint18
+FROM dwgao/java:8-alpine-pinpoint1.8.4
 
 COPY target/*.jar /app/app.jar
 
